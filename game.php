@@ -23,15 +23,22 @@
     <script type="text/javascript">
         var cv = null;
         var ctx = null;
-        var player1=null;
+        var player1 = null;
+        var player2 = null;
         var super_x = 240;
         var super_y = 240;
+
+        var direction = "right";
+        var score=0;
+        var speed=5;
 
         function start() {
             cv = document.getElementById("mycanvas");
             ctx = cv.getContext('2d');
 
-            player1=new Cuadrado(super_x,super_y,40,40,"yellow");
+            player1 = new Cuadrado(super_x, super_y, 40, 40, "yellow");
+
+            player2 = new Cuadrado(randomNumber(460), randomNumber(460), 40, 40, "yellow");
 
             paint();
         }
@@ -44,8 +51,14 @@
             ctx.fillStyle = "cyan";
             ctx.fillRect(0, 0, 500, 500);
 
-            player1.c=random_rgba();
+            ctx.fillStyle="black";
+            ctx.font="20px Arial";
+            ctx.fillText("SCORE: "+score+" SPEED: "+speed,30,20);
+            
+            player1.c = random_rgba();
             player1.dibujar(ctx);
+
+            player2.dibujar(ctx);
 
             /* ctx.fillStyle = random_rgba();
             ctx.fillRect(super_x, super_y, 40, 40);
@@ -55,10 +68,43 @@
         };
 
         function update() {
-            player1.x += 5;
-            if (player1.x > 500) {
-                player1.x=0;
+
+            if (direction == "right") {
+                player1.x += speed;
+                if (player1.x > 500) {
+                    player1.x = 0;
+                }
             }
+
+            if (direction == "left") {
+                player1.x -= speed;
+                if (player1.x < 0) {
+                    player1.x = 500;
+                }
+            }
+
+            if (direction == "up") {
+                player1.y -= speed;
+                if (player1.y < 0) {
+                    player1.y = 500;
+                }
+            }
+
+            if (direction == "down") {
+                player1.y += speed;
+                if (player1.y > 500) {
+                    player1.y = 0;
+                }
+            }
+
+            if(player1.se_tocan(player2)){
+                player2.x=randomNumber(460);
+                player2.y=randomNumber(460);
+
+                score+=10;
+                speed+=5;
+            }
+
         }
 
         window.addEventListener("load", start);
@@ -72,18 +118,31 @@
                 };
         }());
 
-        function Cuadrado(x,y,w,h,c){
-            this.x=x;
-            this.y=y;
-            this.w=w;
-            this.h=h;
-            this.c=c;
+        function Cuadrado(x, y, w, h, c) {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
+            this.c = c;
 
-            this.dibujar= function(ctx){
+            this.dibujar = function(ctx) {
                 ctx.fillStyle = this.c;
                 ctx.fillRect(this.x, this.y, this.w, this.h);
                 ctx.strokeRect(this.x, this.y, this.w, this.h);
             }
+
+            this.se_tocan = function(target) {
+
+                if (this.x < target.x + target.w &&
+
+                    this.x + this.w > target.x &&
+                    this.y < target.y + target.h &&
+                    this.y + this.h > target.y)
+                {
+                    return true;
+                }
+
+            };
         }
 
         function random_rgba() {
@@ -93,31 +152,35 @@
             return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
         }
 
+        function randomNumber(max) {
+            return Math.floor(Math.random() * max);
+        }
 
-        /* document.addEventListener("keydown", function(e) {
+
+        document.addEventListener("keydown", function(e) {
             //arriba
             if (e.keyCode == 87 || e.keyCode == 38) {
-                super_y -= 10;
+                direction = "up";
             }
 
             //abajo
             if (e.keyCode == 83 || e.keyCode == 40) {
-                super_y += 10;
+                direction = "down";
             }
 
             //izquierda
             if (e.keyCode == 65 || e.keyCode == 37) {
-                super_x -= 10;
+                direction = "left";
             }
 
             //derecha
             if (e.keyCode == 68 || e.keyCode == 39) {
-                super_x += 10;
+                direction = "right";
             }
 
-            paint();
 
-        }); */
+
+        });
     </script>
 </body>
 
