@@ -29,8 +29,12 @@
         var super_y = 240;
 
         var direction = "right";
-        var score=0;
-        var speed=5;
+        var score = 0;
+        var speed = 5;
+        var pause = false;
+
+        var lastPress = null;
+        var walls = new Array();
 
         function start() {
             cv = document.getElementById("mycanvas");
@@ -39,6 +43,11 @@
             player1 = new Cuadrado(super_x, super_y, 40, 40, "yellow");
 
             player2 = new Cuadrado(randomNumber(460), randomNumber(460), 40, 40, "yellow");
+
+            walls.push(new Cuadrado(80, 420, 340, 30, "gray"));
+            walls.push(new Cuadrado(80, 120, 340, 30, "gray"));
+            walls.push(new Cuadrado(80, 220, 30, 120, "gray"));
+            walls.push(new Cuadrado(400, 220, 30, 120, "gray"));
 
             paint();
         }
@@ -51,58 +60,83 @@
             ctx.fillStyle = "cyan";
             ctx.fillRect(0, 0, 500, 500);
 
-            ctx.fillStyle="black";
-            ctx.font="20px Arial";
-            ctx.fillText("SCORE: "+score+" SPEED: "+speed,30,20);
-            
+            ctx.fillStyle = "black";
+            ctx.font = "20px Arial";
+            ctx.fillText("SCORE: " + score + " SPEED: " + speed, 30, 20);
+
             player1.c = random_rgba();
             player1.dibujar(ctx);
 
             player2.dibujar(ctx);
 
+            for (var i = 0; i < walls.length; i++) {
+                walls[i].dibujar(ctx);
+            }
+
+            if (!pause) {
+                update();
+            } else {
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0, 0, 500, 500);
+
+                ctx.fillStyle = "white";
+                ctx.fillText("P A U S E", 210, 210);
+            }
+
             /* ctx.fillStyle = random_rgba();
             ctx.fillRect(super_x, super_y, 40, 40);
             ctx.strokeRect(super_x, super_y, 40, 40); */
 
-            update();
+
         };
 
         function update() {
 
-            if (direction == "right") {
-                player1.x += speed;
-                if (player1.x > 500) {
-                    player1.x = 0;
-                }
+            if (!pause) {
+                if (lastPress == 39) direction = 'right';
+                if (lastPress == 37) direction = 'left';
+                if (lastPress == 38) direction = 'up';
+                if (lastPress == 40) direction = 'down';
+
+                if (direction == 'right') player1.x += speed;
+                if (direction == 'left') player1.x -= speed;
+                if (direction == 'up') player1.y -= speed;
+                if (direction == 'down') player1.y += speed;
+
+                if (player1.x > 500) player1.x = 0;
+                if (player1.y > 500) player1.y = 0;
+                if (player1.x < 0) player1.x = 500;
+                if (player1.y < 0) player1.y = 500;
             }
 
-            if (direction == "left") {
-                player1.x -= speed;
-                if (player1.x < 0) {
-                    player1.x = 500;
-                }
+
+            if (player1.se_tocan(player2)) {
+                player2.x = randomNumber(460);
+                player2.y = randomNumber(460);
+
+                score += 10;
+                speed += 5;
             }
 
-            if (direction == "up") {
-                player1.y -= speed;
-                if (player1.y < 0) {
-                    player1.y = 500;
+            for (var i = 0; i < walls.length; i++) {
+
+                if (player1.se_tocan(walls[i])) {
+                    /* if (direction == 'right') player1.x -= speed;
+                    if (direction == 'left') player1.x += speed;
+                    if (direction == 'up') player1.y += speed;
+                    if (direction == 'down') player1.y -= speed; */
+
+                     score --;
+
+                     player1.x=10;
+                     player1.y=20;  
                 }
-            }
 
-            if (direction == "down") {
-                player1.y += speed;
-                if (player1.y > 500) {
-                    player1.y = 0;
+                if (player2.se_tocan(walls[i])) {
+                    player2.x = randomNumber(460);
+                    player2.y = randomNumber(460);
                 }
-            }
 
-            if(player1.se_tocan(player2)){
-                player2.x=randomNumber(460);
-                player2.y=randomNumber(460);
-
-                score+=10;
-                speed+=5;
             }
 
         }
@@ -137,8 +171,7 @@
 
                     this.x + this.w > target.x &&
                     this.y < target.y + target.h &&
-                    this.y + this.h > target.y)
-                {
+                    this.y + this.h > target.y) {
                     return true;
                 }
 
@@ -158,7 +191,7 @@
 
 
         document.addEventListener("keydown", function(e) {
-            //arriba
+            /* //arriba
             if (e.keyCode == 87 || e.keyCode == 38) {
                 direction = "up";
             }
@@ -176,9 +209,14 @@
             //derecha
             if (e.keyCode == 68 || e.keyCode == 39) {
                 direction = "right";
+            } */
+
+            lastPress = e.keyCode;
+
+            //pause
+            if (e.keyCode == 32) {
+                pause = (pause) ? false : true;
             }
-
-
 
         });
     </script>
