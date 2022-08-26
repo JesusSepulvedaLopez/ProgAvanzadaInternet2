@@ -36,6 +36,11 @@
         var lastPress = null;
         var walls = new Array();
 
+        var conejo =new Image();
+        var zanahoria= new Image();
+        var pared=new Image();
+        var sonido=new Audio();
+
         function start() {
             cv = document.getElementById("mycanvas");
             ctx = cv.getContext('2d');
@@ -48,6 +53,11 @@
             walls.push(new Cuadrado(80, 120, 340, 30, "gray"));
             walls.push(new Cuadrado(80, 220, 30, 120, "gray"));
             walls.push(new Cuadrado(400, 220, 30, 120, "gray"));
+
+            conejo.src="./img/conejo.png";
+            zanahoria.src="./img/zanahoria.png"
+            pared.src="./img/pared.png"
+            sonido.src="./img/comer.mp3";
 
             paint();
         }
@@ -65,9 +75,11 @@
             ctx.fillText("SCORE: " + score + " SPEED: " + speed, 30, 20);
 
             player1.c = random_rgba();
-            player1.dibujar(ctx);
+            /* player1.dibujar(ctx); */
+            ctx.drawImage(conejo,player1.x,player1.y,40,40);
 
-            player2.dibujar(ctx);
+            /* player2.dibujar(ctx); */
+            ctx.drawImage(zanahoria,player2.x,player2.y,40,40);
 
             for (var i = 0; i < walls.length; i++) {
                 walls[i].dibujar(ctx);
@@ -116,20 +128,22 @@
 
                 score += 10;
                 speed += 5;
+                sonido.play();
+                
             }
 
             for (var i = 0; i < walls.length; i++) {
 
                 if (player1.se_tocan(walls[i])) {
-                    /* if (direction == 'right') player1.x -= speed;
+                     if (direction == 'right') player1.x -= speed;
                     if (direction == 'left') player1.x += speed;
                     if (direction == 'up') player1.y += speed;
-                    if (direction == 'down') player1.y -= speed; */
+                    if (direction == 'down') player1.y -= speed; 
 
-                     score --;
+                    /*  score --;
 
                      player1.x=10;
-                     player1.y=20;  
+                     player1.y=20;   */
                 }
 
                 if (player2.se_tocan(walls[i])) {
@@ -160,9 +174,10 @@
             this.c = c;
 
             this.dibujar = function(ctx) {
-                ctx.fillStyle = this.c;
+               /*  ctx.fillStyle = this.c;
                 ctx.fillRect(this.x, this.y, this.w, this.h);
-                ctx.strokeRect(this.x, this.y, this.w, this.h);
+                ctx.strokeRect(this.x, this.y, this.w, this.h); */
+                ctx.drawImage(pared,this.x, this.y, this.w, this.h);
             }
 
             this.se_tocan = function(target) {
