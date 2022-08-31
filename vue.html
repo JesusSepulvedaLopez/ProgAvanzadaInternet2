@@ -17,16 +17,55 @@
             {{lastname}}
         </p>
 
+        <h2>Pro del salon</h2>
+        <ol>
+            <li v-for="alumno in palomilla">
+                {{alumno.name}}:
+                {{alumno.role}}
+            </li>
+        </ol>
+
+        <fieldset>
+            <legend>Nuevo Alumno</legend>
+            <input type="text" v-model="a_name">
+            <input type="text" v-model="role">
+            <button @click="addPalomilla">
+                Guardar
+            </button>
+        </fieldset>
+        <hr>
+
+        <fieldset>
+            <label for="" >
+                Ingrese su edad
+            </label>
+            <input type="text" v-model="age">
+            <h1 v-if="age>=18">
+                Vamos a pistear
+            </h1>
+            <h1 v-else>
+                Vamos a la casa
+            </h1>
+        </fieldset>
+
         <form action="">
             <fieldset>
                 <legend>Datos personales</legend>
                 <input type="text" v-model="name"> 
-                <input type="text" v-model="lastname"> 
+                <input type="text" v-model="lastname">
+                <button @click="saludar">
+                    saludar
+                </button> 
             </fieldset>
+            <hr>
 
-            <button @click="saludar">
-                saludar
-            </button>
+            <fieldset>
+                <legend>Calculadora</legend>
+                <input type="text" name="" id="" v.model="num1">
+                <input type="text" name="" id="" v.model="num2">
+                <button @click="sumar">Sumar</button>
+            </fieldset>
+            
         </form>
     </div>
 
@@ -39,13 +78,34 @@
             data(){
                 return {
                     name: "Jesus",
-                    lastname: "Sepulveda"
+                    lastname: "Sepulveda",
+                    num1:0,
+                    num2:0,
+                    resultado:0,
+                    age:0,
+                    palomilla:[
+                        {name: 'Suzzet',role:'backend'},
+                        {name: 'Emmanuel',role:'fronted'},
+                        {name: 'Isaco',role:'bda'},
+                        {name: 'Dara',role:'Movil'},
+                    ],
+                    a_name:"",
+                    role:""
                 }
             },
             methods:{
                 saludar(){
                     alert("Hola: "+this.name+" "+this.lastname)
+                },
+                sumar(){
+                    //this.resultado=parseInt(this.numero1)+parseInt(this.numero2)
+                    alert((parseInt(this.num1)+parseInt(this.num2)))
+                },
+                addPalomilla(){
+                    this.palomilla.push({name:this.a_name,role:this.role})
                 }
+                
+
             }
         }).mount("#contenedor")
 
