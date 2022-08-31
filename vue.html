@@ -9,24 +9,46 @@
 </head>
 
 <body>
-    <div id="myapp">
+    <div id="contenedor">
         <h1>
             Hello {{name}}
         </h1>
+        <p>
+            {{lastname}}
+        </p>
+
+        <form action="">
+            <fieldset>
+                <legend>Datos personales</legend>
+                <input type="text" v-model="name"> 
+                <input type="text" v-model="lastname"> 
+            </fieldset>
+
+            <button @click="saludar">
+                saludar
+            </button>
+        </form>
     </div>
 
     <script src="https://unpkg.com/vue@3"></script>
     <script type="text/javascript">
 
         const { createApp } = Vue
-
-        createApp({
-            data() {
+        
+        const app=createApp({
+            data(){
                 return {
-                    name: "Jesus Sepulveda"
+                    name: "Jesus",
+                    lastname: "Sepulveda"
+                }
+            },
+            methods:{
+                saludar(){
+                    alert("Hola: "+this.name+" "+this.lastname)
                 }
             }
-        }).mount("#myapp")
+        }).mount("#contenedor")
+
     </script>
 </body>
 
