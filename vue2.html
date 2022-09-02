@@ -49,16 +49,26 @@
                     var tmp_pwd=this.password
 
                     var access = this.users.map(function (u) {
-                        if (tmp_mail === u.emal) {
+                        if (tmp_mail === u.email) {
                             if(tmp_pwd===u.password){
+                                var tmp_usr= {
+                                    name:u.name,
+                                    username:u.username,
+                                    email:u.email
+                                }
+
+                                localStorage.setItem('user',JSON.stringify(tmp_usr))
+
                                 alert('Accesos Correctos')
+
+                                window.location.href='users.html';
                             }
-                            stop();
+                            
                         }
                     })
                     console.log(this.email)
                     console.log(this.password)
-                    e.preventDefault()
+                    e.preventDefault();
                 }
 
             },

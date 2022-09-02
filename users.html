@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="contenedor">
+        <h1>
+            Bienvenido {{user.name}}
+        </h1>
+        <table>
+            <tr>
+                <thead>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                    <th>Action</th>
+                </thead>
+            </tr>
+            <tr v-for="user in users">
+                <th >
+                    {{user.id}}
+                </th>
+                <th >
+                    {{user.name}}
+                </th>
+                <th >
+                    {{user.username}}
+                </th>
+                <th >
+                    {{user.email}}
+                </th>
+                <th >
+                    {{user.phone}}
+                </th>
+                <th >
+                    {{user.website}}
+                </th>
+                <th >
+                    <button>Edit</button>
+                    <button>Delate</button>
+                </th>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script type="text/javascript">
+
+        const { createApp } = Vue
+
+
+
+        const app = createApp({
+            data() {
+                return {
+                    user: '',
+                    users: null,
+
+                }
+            },
+            methods: {
+
+
+            },
+            mounted() {
+                var usr = localStorage.getItem('user');
+                usr = JSON.parse(usr);
+                this.user = usr.name;
+
+
+                fetch('data/users.json')
+                    .then((res) => res.json())
+                    .then((json) => (this.users = json))
+                    .catch((err) => (alert('no data')))
+            }
+        }).mount("#contenedor")
+
+    </script>
+</body>
+
+</html>
