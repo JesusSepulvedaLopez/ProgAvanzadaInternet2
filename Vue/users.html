@@ -71,8 +71,11 @@
             <fieldset>
                 <legend>Datos personales</legend>
                 <input type="text" v-model="name">
-                <button @click="saludar">
+                <button @click="">
                     Guardar
+                </button>
+                <button @click="cancel">
+                    Cancelar
                 </button>
             </fieldset>
         </form>
@@ -103,6 +106,9 @@
             methods: {
                 newUser(){
                     this.action='create';
+                },
+                cancel(){
+                    this.action='read';
                 }
 
             },
