@@ -104,7 +104,7 @@
 
                     <div class="row">
 
-                        <?php for ($i = 0; $i < 12; $i++) : ?>
+                        
 
                             <div class="col-md-4 col-sm-12">
 
@@ -130,7 +130,7 @@
 
                             </div>
 
-                        <?php endfor; ?>
+                       
 
                     </div>
 
