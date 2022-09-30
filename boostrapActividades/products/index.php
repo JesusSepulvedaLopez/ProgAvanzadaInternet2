@@ -1,4 +1,11 @@
-<?php include "../layouts/head.template.php"; ?>
+<?php 
+include "../app/ProductsController.php";
+$productController = new ProductsController();
+$products = $productController-> getProducts();
+
+
+include "../layouts/head.template.php";
+ ?>
 
 <body>
 
@@ -27,15 +34,16 @@
             <section>
 
                 <div class="row">
-
-                    <?php for ($i = 0; $i < 12; $i++) : ?>
+                <?php if(isset($products) && count($products)) : ?>
+                    <?php foreach ($products as $product) : ?>
+                    
 
                         <div class="col-md-4 col-sm-12">
 
                             <div class="card mb-2">
-                                <img src="../public/img/logo.png" class="card-img-top" alt="...">
+                                <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
+                                    <h5 class="card-title"> <?= $product->name ?> </h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
                                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
@@ -53,8 +61,8 @@
                             </div>
 
                         </div>
-
-                    <?php endfor; ?>
+                     <?php endforeach ?>
+                   
 
                 </div>
 

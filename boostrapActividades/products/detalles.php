@@ -16,11 +16,7 @@
                             /Productos
                         </label>
                     </div>
-                    <div class="col">
-                        <button data-bs-toggle="modal" data-bs-target="#addProductModal" class=" float-end btn btn-primary">
-                            Añadir producto
-                        </button>
-                    </div>
+                    
                 </div>
             </section>
 

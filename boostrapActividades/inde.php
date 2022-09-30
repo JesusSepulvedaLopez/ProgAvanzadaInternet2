@@ -64,13 +64,13 @@
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad debitis at deleniti soluta, dolorum aliquid repudiandae nemo? Labore modi porro architecto reprehenderit. Reiciendis ex aliquid officiis, beatae veniam rerum fugiat.
                     </p>
 
-                    <form action="">
+                    <form method="POST" action="app/AuthController.php" >
                         <div>
                             <label for="">Correo electronico</label>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">@</span>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                <input require name="email" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
@@ -78,11 +78,12 @@
                             <label for="">Contraseña</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">@</span>
-                                <input type="text" class="form-control" placeholder="*******" aria-label="Username" aria-describedby="basic-addon1">
+                                <input require name="password" type="password" class="form-control" placeholder="*******" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary col-12">Acceder</button>
+                        <input type="hidden" name="action" value="access">
                     </form>
                 </div>
             </div>
