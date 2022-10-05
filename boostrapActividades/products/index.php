@@ -1,7 +1,11 @@
 <?php
 include "../app/ProductsController.php";
+include "../app/BrandController.php";
 $productController = new ProductsController();
 $products = $productController->getProducts();
+
+$bransController = new BrandController();
+$brands = $bransController->getBrands();
 /* $products = $productController-> store(); */
 
 ?>
@@ -60,7 +64,7 @@ $products = $productController->getProducts();
                                                 Eliminar
                                             </a>
 
-                                            <a href="./detalles.php" class="btn btn-info col-12">
+                                            <a href="./detalles.php?" class="btn btn-info col-12">
                                                 Detalles
                                             </a>
 
@@ -92,13 +96,13 @@ $products = $productController->getProducts();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="../app/ProductsController.php">
+                <form method="POST" action="../app/ProductsController.php" enctype="multipart/form-data">
 
                     <div class="modal-body">
 
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input name="name" required type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">                       
+                            <input name="name" required type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
 
                         <div class="input-group mb-3">
@@ -118,7 +122,18 @@ $products = $productController->getProducts();
 
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input name="brand_id" required type="text" class="form-control" placeholder="Brand_id" aria-label="Username" aria-describedby="basic-addon1">
+
+                            <select name="brand_id" required id="" class="form-control" >
+                                <?php foreach ($brands as $brand) : ?>
+
+                                    <option value="<?= $brand->id ?>">
+                                        <?= $brand->name ?>
+
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+
+                            <!--  <input name="brand_id" required type="text" class="form-control" placeholder="Brand_id" aria-label="Username" aria-describedby="basic-addon1"> -->
                         </div>
 
                     </div>
@@ -131,7 +146,7 @@ $products = $productController->getProducts();
                         <button type="submit" class="btn btn-primary">
                             Save changes
                         </button>
-                        <input type="hidden" name="action" value="store">
+                        <input type="hidden" name="action" value="create">
                     </div>
 
                 </form>

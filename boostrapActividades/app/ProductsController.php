@@ -3,7 +3,7 @@ session_start();
 
 if(isset($_POST['action'])){
     switch ($_POST['action']){
-        case 'store':
+        case 'create':
             $name = strip_tags($_POST['name']);
             $slug = strip_tags($_POST['slug']);
             $description = strip_tags($_POST['description']);
@@ -11,7 +11,7 @@ if(isset($_POST['action'])){
             $brand_id = strip_tags($_POST['brand_id']);
 
             $productsController = new ProductsController();
-            $productsController->store($name,$slug,$description,$features,$brand_id);
+            $productsController->createProduct($name,$slug,$description,$features,$brand_id);
             break;
     }
 }
@@ -48,7 +48,7 @@ class ProductsController
         }
     }
 
-    public function store($name,$slug,$description,$features,$brand_id)
+    public function createProduct($name,$slug,$description,$features,$brand_id)
     {
 
         $curl = curl_init();
@@ -74,9 +74,9 @@ class ProductsController
         $response = json_decode($response);
 
         if (isset($response->code) && $response->code > 0) {
-            header("Location:../products/index.php?".$response->message);
+            header("Location:../products?Succes");
         } else {
-            header("Location:../products/index.php?Error");
+            header("Location:../products?Error");
         }
     }
 }
