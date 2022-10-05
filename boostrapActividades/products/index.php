@@ -1,18 +1,23 @@
-<?php 
+<?php
 include "../app/ProductsController.php";
 $productController = new ProductsController();
-$products = $productController-> getProducts();
+$products = $productController->getProducts();
+/* $products = $productController-> store(); */
 
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-include "../layouts/head.template.php";
- ?>
+<head>
+    <?php include "../layouts/head.template.php"; ?>
+</head>
 
 <body>
 
     <?php include "../layouts/nav.template.php"; ?>
 
     <div class="container-fluid">
-        
+
         <?php include "../layouts/sidebar.template.php"; ?>
 
         <div class="col-md-10 col-lg-10 col-sm-12">
@@ -34,35 +39,39 @@ include "../layouts/head.template.php";
             <section>
 
                 <div class="row">
-                <?php if(isset($products) && count($products)) : ?>
-                    <?php foreach ($products as $product) : ?>
-                    
+                    <?php if (isset($products) && count($products)) : ?>
+                        <?php foreach ($products as $product) : ?>
 
-                        <div class="col-md-4 col-sm-12">
 
-                            <div class="card mb-2">
-                                <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title"> <?= $product->name ?> </h5>
-                                    <h6 class="card-subtitle mb-2 text-muted"><?= $product->brand->description ?></h6>
-                                    <p class="card-text"><?= $product->description ?></p>
+                            <div class="col-md-4 col-sm-12">
 
-                                    <div class="row">
-                                        <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
-                                            Editar
-                                        </a>
-                                        <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
-                                            Eliminar
-                                        </a>
+                                <div class="card mb-2">
+                                    <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> <?= $product->name ?> </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"><?= $product->brand->description ?></h6>
+                                        <p class="card-text"><?= $product->description ?></p>
+
+                                        <div class="row">
+                                            <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
+                                                Editar
+                                            </a>
+                                            <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
+                                                Eliminar
+                                            </a>
+
+                                            <a href="./detalles.php" class="btn btn-info col-12">
+                                                Detalles
+                                            </a>
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
 
-                        </div>
-                     <?php endforeach ?>
-                     <?php endif ?>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
 
                 </div>
 
@@ -83,16 +92,34 @@ include "../layouts/head.template.php";
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form>
+                <form method="POST" action="../app/ProductsController.php">
 
                     <div class="modal-body">
 
-                        <?php for ($i = 0; $i < 6; $i++) : ?>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">@</span>
-                                <input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                        <?php endfor; ?>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input name="name" required type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">                       
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input name="slug" required type="text" class="form-control" placeholder="Slug" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input name="description" required type="text" class="form-control" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input name="features" required type="text" class="form-control" placeholder="Features" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input name="brand_id" required type="text" class="form-control" placeholder="Brand_id" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
 
                     </div>
 
@@ -100,9 +127,11 @@ include "../layouts/head.template.php";
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
+
                         <button type="submit" class="btn btn-primary">
                             Save changes
                         </button>
+                        <input type="hidden" name="action" value="store">
                     </div>
 
                 </form>

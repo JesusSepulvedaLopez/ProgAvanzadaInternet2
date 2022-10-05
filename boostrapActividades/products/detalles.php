@@ -1,4 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
 <?php include "../layouts/head.template.php"; ?>
+</head>
 
 <body>
 
@@ -13,7 +18,7 @@
                 <div class="row bg-light m-2">
                     <div class="col">
                         <label>
-                            /Productos
+                            /Detalles
                         </label>
                     </div>
                     
